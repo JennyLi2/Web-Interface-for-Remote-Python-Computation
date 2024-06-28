@@ -1,0 +1,49 @@
+{
+  "scripts": {
+    "Script1": {
+      "inputFields": [
+        {
+          "label": "Text Field",
+          "type": "text",
+          "name": "text_field1",
+          "placeholder": "This is a readonly example",
+          "readonly": "true"
+        },
+        {
+          "label": "Numerical Field",
+          "type": "number",
+          "name": "number_field1",
+          "value": "0",
+          "required": "true"
+        }
+      ],
+      "module": "script1",
+      "output": "number"
+    },
+    "Script2": {
+      "inputFields": [
+        {
+          "label": "Field1",
+          "type": "number",
+          "name": "field1",
+          "placeholder": "number",
+          "required": "true"
+        },
+        {
+          "label": "Field2",
+          "type": "text",
+          "name": "field2",
+          "placeholder": "some text"
+        },
+        {
+          "label": "Field3",
+          "type": "text",
+          "name": "field3",
+          "placeholder": "some text"
+        }
+      ],
+      "module": "script2",
+      "output": "image"
+    }
+  }
+}

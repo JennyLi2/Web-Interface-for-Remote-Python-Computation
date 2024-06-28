@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="center-div">
+        <div class="center-ele">
+            {% if output_type == 'image' %}
+                <div><img src="{{ result }}" alt="Image" width="300" height="300"></div>
+            {% else %}
+                <p>{{ result }}</p>
+            {% endif %}
+            <button type="button" class="btn btn-dark" onclick={window.location.replace("{{ url_for('form') }}")}>Return</button>
+        </div>
+    </div>
+{% endblock %}

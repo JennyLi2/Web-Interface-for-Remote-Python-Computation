@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="center-div">
+        <div class="center-ele">
+            <h1>404 error</h1>
+            <button type="button" class="btn btn-light" onclick={window.location.replace("{{ url_for('form') }}")}>Go back</button>
+        </div>
+    </div>
+{% endblock %}

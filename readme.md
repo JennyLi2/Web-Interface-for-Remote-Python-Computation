@@ -4,13 +4,15 @@ This is a dissertation project carried out by Cheng Man Li under the supervision
 
 ## Introduction
 
+https://github.com/JennyLi2/Web-Interface-for-Remote-Python-Computation/assets/116062873/792a68e5-24f4-48aa-8086-a52dabdccea8
+
 
 ## Setup
 Make sure Python is installed before you proceed.
 
 1. Clone the repository
 ```
-git clone 
+git clone https://github.com/JennyLi2/Web-Interface-for-Remote-Python-Computation.git
 ```
 Alternatively, you can download this code as a zip file.
 

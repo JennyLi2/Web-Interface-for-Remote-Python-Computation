@@ -3,14 +3,13 @@
 This is a dissertation project carried out by Cheng Man Li under the supervision of Dr. Charles Grellois at the University of Sheffield.
 
 ## Introduction
-This Python program allows you to give access to your own selection of Python scripts, hosted and executed on your own machine, via a web interface.
+This Python program allows you to give access to your own selection of Python scripts, hosted and executed on your own machine, via a web interface implemented with Flask.
 Once installed and configured, a web server will run on your machine, allowing remote users to access a web page on which they will select one of the scripts you provide access to,
 then enter relevant parameters through a dynamically generated web form. The computation will run on your machine and send back the result to the remote user on a web page.
 
 Here is a demo of how a remote user will interact with the web interface:    
+
 https://github.com/JennyLi2/Web-Interface-for-Remote-Python-Computation/assets/116062873/a73edca2-06fd-4bd2-8713-390a7c85248a
-
-
 
 
 ## Setup
@@ -28,19 +27,19 @@ Alternatively, you can download this code as a zip file and extract it.
 
 You may want to create a virtual environment before installing Flask. See the [official documentation](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/#create-and-use-virtual-environments) for more information.
 
-To install flask:
+To install Flask:
 ```
 pip install flask
 ```
 
-Confirm if flask is installed:
+Confirm if Flask is installed:
 ```
 flask --version
 ```
 
 **3. Start the web server**
 
-Make sure you navigated to the project folder before running the command.
+Make sure you navigate to the project folder before running the command.
 ```
 flask run
 ```
@@ -123,7 +122,7 @@ The structure of the configuration file has to be as follows:
 ```
 The text in square brackets [ ] can be replaced accordingly, while the others are fixed terms and should not be changed.
 
-"[option 1]" and "[option 2]" are the names of the scripts to be shown in the dropdown list for users to select. More options can be added following the above format. Each script should have an array of input fields that specifies the inputs it needs for the computation.
+"[option 1]" and "[option 2]" are the names of the scripts to be shown in the dropdown list for users to select. More options can be added following the above format. Each script should have an array of input fields that specify the inputs it needs for the computation.
 
 An input field should have the following attributes:
 * label

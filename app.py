@@ -1,9 +1,6 @@
 from flask import Flask, request, render_template, redirect, url_for, session, abort
 import json
-import logging
 import validator
-
-logging.basicConfig(level=logging.DEBUG)
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret'
@@ -17,7 +14,6 @@ def form():
 
     if request.method == "POST":
         form_data = request.form.to_dict()
-        app.logger.info(form_data)
         choice = form_data.pop('choice')
         module = form_spec[choice]['module']
 

@@ -3,36 +3,54 @@
 This is a dissertation project carried out by Cheng Man Li under the supervision of Dr. Charles Grellois at the University of Sheffield.
 
 ## Introduction
+This Python program allows you to give access to your own selection of Python scripts, hosted and executed on your own machine, via a web interface.
+Once installed and configured, a web server will run on your machine, allowing remote users to access a web page on which they will select one of the scripts you provide access to,
+then enter relevant parameters through a dynamically generated web form. The computation will run on your machine and send back the result to the remote user on a web page.
 
+Here is a demo of how a remote user will interact with the web interface:    
 https://github.com/JennyLi2/Web-Interface-for-Remote-Python-Computation/assets/116062873/792a68e5-24f4-48aa-8086-a52dabdccea8
 
 
 ## Setup
-Make sure Python is installed before you proceed.
+Make sure [Python](https://www.python.org/downloads/) is installed before you proceed.
 
-1. Clone the repository
+**1. Clone the repository ([Git](https://git-scm.com/downloads) required)**
 ```
+cd path/to/your/folder
 git clone https://github.com/JennyLi2/Web-Interface-for-Remote-Python-Computation.git
+cd Web-Interface-for-Remote-Python-Computation
 ```
-Alternatively, you can download this code as a zip file.
+Alternatively, you can download this code as a zip file and extract it.
 
-2. Install Flask
+**2. Install Flask**
+
+You may want to create a virtual environment before installing Flask. See the [official documentation](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/#create-and-use-virtual-environments) for more information.
+
+To install flask:
 ```
 pip install flask
 ```
-3. Start the web server
+
+Confirm if flask is installed:
+```
+flask --version
+```
+
+**3. Start the web server**
+
+Make sure you navigated to the project folder before running the command.
 ```
 flask run
 ```
-Once the server is running, you can access the web interface at:    
+This will start a development server. Once the server is running, you can access the web interface at:    
 http://127.0.0.1:5000/ or http://localhost:5000/
 
 ## Getting started
 
-There is a Python script (`script.py` in the `modules` directory) with an empty function inside and a configuration file (`spec.json` in the `config` directory) provided as templates. You can modify/add new Python scripts and update the configuration file to observe how the web interface changes.
+There are 2 Python scripts (`script1.py` and `script2.py` in the `modules` directory) with empty functions inside and a configuration file (`spec.json` in the `config` directory) provided as templates. You can modify/add new Python scripts and update the configuration file to observe how the web interface changes.
 
 ### 1. Adding new Python scripts   
-The Python scripts have to be manually added to the `modules` directory. The entry point (main function to be called) has to use the name "validate".
+The Python scripts have to be manually added to the `modules` directory. The entry point (main function to be called) has to use the name "validate". Details about the structure of its arguments will be given in the coming part.
 
 ```python
 def validate([input parameters here]):
@@ -49,7 +67,7 @@ def validate([input parameters here]):
 ```
 It is intended that there will be some kind of measures to validate the user's input before performing the real computation. Therefore, this function is specified to be called first for the scripts.
 
-The input parameters should have the same name and be in the same order as the input fields specified in the configuration file.
+The input parameters should have the same names and be in the same order as the input fields specified in the configuration file.
 
 For example:
 ```python

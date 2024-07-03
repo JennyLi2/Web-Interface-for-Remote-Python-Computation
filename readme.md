@@ -8,7 +8,9 @@ Once installed and configured, a web server will run on your machine, allowing r
 then enter relevant parameters through a dynamically generated web form. The computation will run on your machine and send back the result to the remote user on a web page.
 
 Here is a demo of how a remote user will interact with the web interface:    
-https://github.com/JennyLi2/Web-Interface-for-Remote-Python-Computation/assets/116062873/792a68e5-24f4-48aa-8086-a52dabdccea8
+https://github.com/JennyLi2/Web-Interface-for-Remote-Python-Computation/assets/116062873/a73edca2-06fd-4bd2-8713-390a7c85248a
+
+
 
 
 ## Setup

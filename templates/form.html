@@ -1,76 +1,24 @@
-{% extends 'base.html' %}
-
-{% block content %}
-    <div id="select-container" class="center-div">
-        <div id="flex-column" class="flex-container">
-            <label for="select-choice"></label>
-            <select id="select-choice" class="selector">
-                <option value="">-- Please select --</option>
-                {% for choice in choices %}
-                    <option class="options" value="{{ choice }}">{{ choice }}</option>
-                {% endfor %}
-            </select>
-            <div id="form-div" class=""></div>
+<form id="{{ script }}" class="form-container" method="POST" action="/{{ script }}" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    {% for field in form if field.widget.input_type != "hidden" and field.name != "submit" %}
+        <div class="form-field">
+            {% if field.widget.input_type == "checkbox" %}
+                <div class="field-container">
+                    <div>{{ field.label }}</div>
+                    <div class="checkbox">{{ field(class="form-input") }}</div>
+                </div>
+            {% else %}
+                {{ field.label }}
+                {{ field(class="form-input") }}
+            {% endif %}
+            {% if field.description %}
+                <div class="description">{{ field.description }}</div>
+            {% endif %}
+            <div id="{{ field.name }}-err" class="warning"></div>
         </div>
+    {% endfor %}
+    <div id="submit-div" class="submit-div">
+        <div id="loading-div" class=""></div>
+        {{ form.submit(class="submit-btn btn-dark") }}
     </div>
-    <script>
-        document.getElementById('select-choice').addEventListener('change', function () {
-            let choice = this.value;
-            let formFields = {{choices|default("")|tojson}};
-            let formHtml = '';
-            const selector = document.getElementById("select-choice");
-            const flexDiv = document.getElementById("flex-column");
-            const formDiv = document.getElementById("form-div");
-
-            if (choice) {
-                selector.classList.add("selector-selected");
-                selector.classList.remove("selector");
-                flexDiv.classList.add("flex-container-no-margin");
-                flexDiv.classList.remove("flex-container");
-                formDiv.classList.add("form-div");
-
-                formHtml += '<form id="dynamicForm" class="form-container" action="/" method="POST">';
-                formHtml += '<input type="hidden" name="choice" value="' + choice + '">'
-
-                formFields[choice].inputFields.forEach(function (field) {
-                    formHtml += '<div class="form-field"><div class="input-div">'
-                    formHtml += '<label>' + field.label + ':</label><br>';
-
-                    var inputHtml = '<input class="form-input" type="' + field.type + '" name="' + field.name + '"';
-
-                    if (field.value) {
-                        inputHtml += ' value="' + field.value + '"';
-                    }
-                    if (field.placeholder) {
-                        inputHtml += ' placeholder="' + field.placeholder + '"';
-                    }
-                    if (field.required === "true") {
-                        inputHtml += ' required';
-                    }
-                    if (field.readonly === "true") {
-                        inputHtml += ' readonly';
-                    }
-
-                    inputHtml += '></div></div>';
-                    formHtml += inputHtml;
-                });
-                formHtml += '<button id="submit" type="submit" class="submit-btn">Submit</button></form>';
-            } else {
-                selector.classList.remove("selector-selected");
-                selector.classList.add("selector");
-                flexDiv.classList.remove("flex-container-no-margin");
-                flexDiv.classList.add("flex-container");
-                formDiv.classList.remove("form-div");
-            }
-
-            document.getElementById('form-div').innerHTML = formHtml;
-        });
-    </script>
-    <script>
-        window.addEventListener('pageshow', function (event) {
-            if (event.persisted) {
-                location.reload();
-            }
-        });
-    </script>
-{% endblock %}
+</form>

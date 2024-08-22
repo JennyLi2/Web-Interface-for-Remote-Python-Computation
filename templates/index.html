@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<div id="select-container" class="center-div">
+        <div id="flex-column" class="flex-container">
+            <label for="select-choice"></label>
+            <select id="select-choice" class="selector">
+                <option value="">-- Please select --</option>
+                {% for choice in choices %}
+                    <option class="options" value="{{ choice }}"
+                            {% if selected_option == choice %}
+                                selected
+                            {% endif %}>
+                        {{ choice }}
+                    </option>
+                {% endfor %}
+            </select>
+            <div id="form-div" class="{% if form %}form-div{% endif %}">
+                {% if form %}
+                    {% include 'form.html' %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <script>
+        function loadForm(selected){
+            const formDiv = document.getElementById("form-div");
+            const selector = document.getElementById("select-choice");
+            const flexDiv = document.getElementById("flex-column");
+            if(selected){
+                fetch('/load_form/' + selected)
+                    .then(res => res.text())
+                    .then(html => {
+                        formDiv.innerHTML = html;
+                        formDiv.classList.add("form-div");
+                    })
+                selector.classList.add("selector-selected");
+                selector.classList.remove("selector");
+                flexDiv.classList.add("flex-container-no-margin");
+                flexDiv.classList.remove("flex-container");
+            }else{
+                formDiv.innerHTML = "";
+                formDiv.classList.remove("form-div");
+                selector.classList.remove("selector-selected");
+                selector.classList.add("selector");
+                flexDiv.classList.remove("flex-container-no-margin");
+                flexDiv.classList.add("flex-container");
+            }
+        }
+
+        window.addEventListener('load', function(){
+            let selectedScript = document.getElementById("select-choice").value;
+            if (selectedScript) {
+                loadForm(selectedScript);
+            }
+        })
+
+        document.getElementById("select-choice").addEventListener("change", function (){
+            loadForm(this.value);
+        })
+
+        document.addEventListener('submit', function(e) {
+            if (e.target.matches('form')) {
+                e.preventDefault();
+                let form = e.target;
+                let formData = new FormData(form);
+
+                let fields = form.querySelectorAll('input, button, select, textarea');
+                fields.forEach(field => field.disabled = true);
+                const selector = document.getElementById("select-choice");
+                selector.disabled = true
+
+                const loadingDiv = document.getElementById("loading-div");
+                loadingDiv.classList.add("loading");
+                loadingDiv.innerHTML = '<div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>';
+
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if(data.success) {
+                        window.location.href = '/submit';
+                    }else if(data.input_err) {
+                        let errors = data.input_err || {};
+                        for(let field in errors) {
+                            let errMsg = document.getElementById(field+'-err');
+                            errMsg.innerText = errors[field];
+                        }
+                    }else {
+                        alert(data.err_message);
+                    }
+                    fields.forEach(field => field.disabled = false);
+                    loadingDiv.innerHTML = '';
+                    loadingDiv.classList.remove("loading");
+                    selector.disabled = false
+                })
+                .catch(e => {
+                    console.log(e)
+                    alert("An error occurred :(");
+                    fields.forEach(field => field.disabled = false);
+                    loadingDiv.innerHTML = '';
+                    loadingDiv.classList.remove("loading");
+                    selector.disabled = false
+                });
+            }
+        }, true);
+    </script>
+{% endblock %}

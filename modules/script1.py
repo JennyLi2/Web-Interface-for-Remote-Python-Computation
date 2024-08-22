@@ -1,3 +1,3 @@
-def validate(text_field1: str, number_field1: int):
+def validate(text_field1, image_field1):  # The field args are intentionally wrong
     # some operations here
-    return "Some result"
+    return ["Some result"]

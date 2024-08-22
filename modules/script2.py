@@ -1,3 +1,3 @@
-def validate(field1: int, field2: str, field3: str):
+def validate(field1, field2, field3):
     # some operations here
-    return "/static/img/image.jpg"
+    return [["/static/img/image.jpg", "/static/img/image.jpg"]]

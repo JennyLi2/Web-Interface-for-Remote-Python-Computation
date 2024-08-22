@@ -3,22 +3,93 @@
     "Script1": {
       "inputFields": [
         {
-          "label": "Text Field",
+          "label": "Hidden Field",
+          "type": "hidden",
+          "default": 0,
+          "name": "hidden_field1"
+        },
+        {
+          "label": "Text Field 1",
           "type": "text",
           "name": "text_field1",
           "placeholder": "This is a readonly example",
           "readonly": "true"
         },
         {
-          "label": "Numerical Field",
+          "label": "Text Field 2",
+          "type": "text",
+          "min": 4,
+          "max": 5,
+          "name": "text_field2",
+          "placeholder": "This is optional"
+        },
+        {
+          "label": "Number Field",
           "type": "number",
           "name": "number_field1",
-          "value": "0",
+          "default": 0,
           "required": "true"
+        },
+        {
+          "label": "Float Field",
+          "type": "float",
+          "name": "float_field1",
+          "value": "0.55",
+          "description": "Max: 100.1, min: 0.55",
+          "min": 0.55,
+          "max": 100.1
+        },
+        {
+          "label": "Decimal Field",
+          "type": "decimal",
+          "name": "decimal_field1",
+          "value": "0",
+          "description": "This is similar to the float field"
+        },
+        {
+          "label": "Boolean Field (Checkbox)",
+          "type": "boolean",
+          "name": "boolean_field1",
+          "default": "false",
+          "description": "value: false = not checked, true = checked"
+        },
+        {
+          "label": "Date Field",
+          "type": "date",
+          "name": "date_field1"
+        },
+        {
+          "label": "Time Field",
+          "type": "time",
+          "name": "time_field1"
+        },
+        {
+          "label": "Textarea Field",
+          "type": "textarea",
+          "name": "textrea_field1"
+        },
+        {
+          "label": "Select Field",
+          "type": "select",
+          "choices": ["Select", "from", "dropdown", "list"],
+          "name": "select_field1"
+        },
+        {
+          "label": "Radio Field",
+          "type": "radio",
+          "choices": ["Select", "only", "one"],
+          "name": "radio_field1"
+        },
+        {
+          "label": "File Field",
+          "type": "file",
+          "name": "image_field1",
+          "extension": ["png", "jpg", "tiff"],
+          "description": "Set the accepted file type with \"extension\""
         }
       ],
       "module": "script1",
-      "output": "number"
+      "output": ["text"]
     },
     "Script2": {
       "inputFields": [
@@ -27,7 +98,8 @@
           "type": "number",
           "name": "field1",
           "placeholder": "number",
-          "required": "true"
+          "required": "true",
+          "description": "Some description for the input field"
         },
         {
           "label": "Field2",
@@ -43,7 +115,42 @@
         }
       ],
       "module": "script2",
-      "output": "image"
+      "output": ["images"]
+    },
+    "Scikitlearn Iris": {
+      "inputFields": [
+        {
+          "label": "Sepal length",
+          "type": "decimal",
+          "name": "sepal_length",
+          "placeholder": "Enter the sepal length",
+          "required": "true"
+        },
+        {
+          "label": "Sepal width",
+          "type": "decimal",
+          "name": "sepal_width",
+          "placeholder": "Enter the sepal width",
+          "required": "true"
+        }
+      ],
+      "module": "scikitlearn_example.iris_tree_script",
+      "output": ["text"]
+    },
+    "Pytorch Cifar": {
+      "inputFields": [
+        {
+          "label": "Image to classify",
+          "type": "file",
+          "name": "image_field1",
+          "description": "Accepted image type: \"png\", \"jpg\", \"bmp\"",
+          "extension": ["png", "jpg", "bmp"],
+          "value": "0",
+          "required": "true"
+        }
+      ],
+      "module": "pytorch_example.cifar_example",
+      "output": ["images", "text"]
     }
   }
 }

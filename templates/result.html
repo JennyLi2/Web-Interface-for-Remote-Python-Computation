@@ -3,11 +3,46 @@
 {% block content %}
     <div class="center-div">
         <div class="center-ele">
-            {% if output_type == 'image' %}
-                <div><img src="{{ result }}" alt="Image" width="300" height="300"></div>
-            {% else %}
-                <p>{{ result }}</p>
-            {% endif %}
+            {% for output in output_type %}
+                {% if output == 'images' %}
+                    <div id="carousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            {% for image in result[loop.index0] %}
+                                <button type="button" data-bs-target="#carousel" data-bs-slide-to="{{ loop.index0 }}"
+                                        {% if loop.first %}
+                                            class="active" aria-current="true"
+                                        {% endif %}>
+                                </button>
+                            {% endfor %}
+                        </div>
+                        <div class="carousel-inner">
+                            {% for image in result[loop.index0] %}
+                                <div class="carousel-item
+                                    {% if loop.first %}
+                                        active
+                                    {% endif %}"
+                                >
+                                    <img class="carousel-display" src="{{ image }}">
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% if result[loop.index0]|length > 1 %}
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        {% endif %}
+                    </div>
+                {% elif output == 'image' %}
+                    <div class="image"><img src="{{ result[loop.index0] }}" alt="Image" width="300" height="300"></div>
+                {% else %}
+                    <p>{{ result[loop.index0] }}</p>
+                {% endif %}
+            {% endfor %}
             <button type="button" class="btn btn-dark" onclick={window.location.replace("{{ url_for('form') }}")}>Return</button>
         </div>
     </div>

@@ -3,8 +3,9 @@
 {% block content %}
     <div class="center-div">
         <div class="center-ele">
-            <h1>404 error</h1>
-            <button type="button" class="btn btn-light" onclick={window.location.replace("{{ url_for('form') }}")}>Go back</button>
+            <h1>{{ err_code }}</h1>
+            <p class="err-msg">{{ err_message}}</p>
+            <button type="button" class="btn btn-dark" onclick={window.location.replace("{{ url_for('form') }}")}>Go back</button>
         </div>
     </div>
 {% endblock %}

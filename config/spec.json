@@ -50,8 +50,8 @@
           "label": "Boolean Field (Checkbox)",
           "type": "boolean",
           "name": "boolean_field1",
-          "default": "false",
-          "description": "value: false = not checked, true = checked"
+          "default": "False",
+          "description": "value: False = not checked, True = checked"
         },
         {
           "label": "Date Field",

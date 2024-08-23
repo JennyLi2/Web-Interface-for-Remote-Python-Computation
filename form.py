@@ -53,9 +53,9 @@ def generate_form(fields):
         elif field['type'] == 'hidden':
             form_field = HiddenField(**field_args)
         elif field['type'] == 'boolean':
-            if field['default'] == 'false':
+            if field['default'] == 'False':
                 field_args['default'] = False
-            elif field['default'] == 'true':
+            elif field['default'] == 'True':
                 field_args['default'] = True
             form_field = BooleanField(**field_args)
         elif field['type'] == 'select':

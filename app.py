@@ -53,10 +53,9 @@ async def handle_form(script):
     if request.method == "POST":
         if form.validate_on_submit():
             form_data = {}
-            for key, value in request.form.items():
-                form_data[key] = value
-
-            form_data.pop('csrf_token')
+            for field_name, field in form._fields.items():
+                if field_name not in ['csrf_token', 'submit']:
+                    form_data[field_name] = field.data
 
             if request.files:
                 for key, file in request.files.items():
@@ -95,13 +94,11 @@ async def load_form(script):
 
 
 @app.route('/submit')
-async def submit_form():
-    result = (session.pop('result', None))
-    output_type = (session.pop('output_type', None))
-    if result is not None:
-        return render_template('result.html', result=result, output_type=output_type)
-    else:
-        return render_template('result.html', result="No result available", output_type=["text"])
+def submit_form():
+    result = session.pop('result', ["No result available"])
+    output_type = session.pop('output_type', ["text"])
+
+    return render_template('result.html', result=result, output_type=output_type)
 
 
 @app.errorhandler(Exception)

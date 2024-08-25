@@ -4,20 +4,18 @@ import json
 from flask_wtf import CSRFProtect
 import validator
 from form import generate_form
-from asgiref.wsgi import WsgiToAsgi
-import aiofiles
-import uvicorn
+from concurrent.futures import ThreadPoolExecutor
 
 app = Flask(__name__)
-asgi_app = WsgiToAsgi(app)
 app.config['SECRET_KEY'] = 'secret'  # change this in production
 csrf = CSRFProtect(app)
+executor = ThreadPoolExecutor(max_workers=5)    # change the number of workers according to need
 
 
-async def load_config():
+def load_config():
     try:
-        async with aiofiles.open('config/spec.json', 'r') as file:
-            config = json.loads(await file.read())
+        with open('config/spec.json', 'r') as file:
+            config = json.loads(file.read())
     except FileNotFoundError:
         logging.error("Configuration file not found")
         abort(500)
@@ -31,16 +29,16 @@ async def load_config():
 
 
 @app.route('/', methods=['GET', 'POST'])
-async def index():
-    config = await load_config()
+def index():
+    config = load_config()
     scripts = list(config['scripts'].keys())
     selected_option = request.args.get('script', '')
     return render_template('index.html', choices=scripts, selected_option=selected_option)
 
 
 @app.route('/<script>', methods=['GET', 'POST'])
-async def handle_form(script):
-    config = await load_config()
+def handle_form(script):
+    config = load_config()
     scripts = list(config['scripts'].keys())
 
     if script not in config['scripts']:
@@ -65,7 +63,8 @@ async def handle_form(script):
             module = form_spec['module']
 
             try:
-                result = validator.check_module(module, form_data)
+                future = executor.submit(validator.check_module, module, form_data)
+                result = future.result()
                 session['result'] = result
                 session['output_type'] = form_spec['output']
                 return jsonify(success=True)
@@ -80,8 +79,8 @@ async def handle_form(script):
 
 
 @app.route('/load_form/<script>', methods=['GET'])
-async def load_form(script):
-    config = await load_config()
+def load_form(script):
+    config = load_config()
 
     if script not in config['scripts']:
         abort(404, description="Not found")
@@ -102,13 +101,16 @@ def submit_form():
 
 
 @app.errorhandler(Exception)
-async def handle_error(e):
+def handle_error(e):
     err_code = getattr(e, 'code', 500)
     err_message = getattr(e, 'description', 'Internal server error')
     return render_template("error.html", err_code=err_code, err_message=err_message), err_code
 
 
 if __name__ == '__main__':
-    host = '127.0.0.1'  # for local development
-    port = 5000
-    uvicorn.run(asgi_app, host=host, port=port)
+    '''
+        use the following command to run the app:
+            waitress-serve --host=127.0.0.1 --port=5000 --threads=4 app:app
+        the number of threads can be changed according to need
+    '''
+    app.run()   # change to app.run(threaded=True) if running with Flask server for development

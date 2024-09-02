@@ -1,7 +1,9 @@
 import logging
-from flask import Flask, request, render_template, session, abort, jsonify
+import uuid
+from flask import Flask, request, render_template, abort, jsonify, url_for
 import json
 from flask_wtf import CSRFProtect
+from waitress import serve
 import validator
 from form import generate_form
 from concurrent.futures import ThreadPoolExecutor
@@ -10,6 +12,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret'  # change this in production
 csrf = CSRFProtect(app)
 executor = ThreadPoolExecutor(max_workers=5)    # change the number of workers according to need
+temp = {}
 
 
 def load_config():
@@ -28,7 +31,7 @@ def load_config():
     return config
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
 def index():
     config = load_config()
     scripts = list(config['scripts'].keys())
@@ -65,9 +68,10 @@ def handle_form(script):
             try:
                 future = executor.submit(validator.check_module, module, form_data)
                 result = future.result()
-                session['result'] = result
-                session['output_type'] = form_spec['output']
-                return jsonify(success=True)
+                result_id = str(uuid.uuid4())
+                temp[result_id] = {'result': result, 'output_type': form_spec['output']}
+                redirect_url = url_for('submit_result', result_id=result_id)
+                return jsonify(success=True, redirect_url=redirect_url)
             except Exception as e:
                 logging.error(e)
                 return jsonify(success=False, err_message="Internal server error"), 500
@@ -92,10 +96,10 @@ def load_form(script):
     return render_template('form.html', form=form, script=script)
 
 
-@app.route('/submit')
-def submit_form():
-    result = session.pop('result', ["No result available"])
-    output_type = session.pop('output_type', ["text"])
+@app.route('/result/<result_id>')
+def submit_result(result_id):
+    data = temp.pop(result_id)
+    result, output_type = data.values()
 
     return render_template('result.html', result=result, output_type=output_type)
 
@@ -108,9 +112,10 @@ def handle_error(e):
 
 
 if __name__ == '__main__':
-    '''
-        use the following command to run the app:
-            waitress-serve --host=127.0.0.1 --port=5000 --threads=4 app:app
-        the number of threads can be changed according to need
-    '''
-    app.run()   # change to app.run(threaded=True) if running with Flask server for development
+    logging.basicConfig(level=logging.INFO)
+    logger = logging.getLogger('waitress')
+
+    logger.setLevel(logging.DEBUG)  # for development stage use debug level
+
+    # or use app.run(threaded=True) if running with Flask server for development
+    serve(app, host='127.0.0.1', port=5000, threads=4)

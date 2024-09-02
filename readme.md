@@ -106,7 +106,7 @@ The structure of the configuration file has to be as follows:
           "label": "[field label]",
           "type": "[field type]",
           "name": "[field name]",
-          "value": "[value name]",
+          "default": "[default value]",
             ...
         }, 
         ...

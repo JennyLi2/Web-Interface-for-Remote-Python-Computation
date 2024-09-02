@@ -81,7 +81,7 @@
                 .then(res => res.json())
                 .then(data => {
                     if(data.success) {
-                        window.location.href = '/submit';
+                        window.location.href = data.redirect_url;
                     }else if(data.input_err) {
                         let errors = data.input_err || {};
                         for(let field in errors) {

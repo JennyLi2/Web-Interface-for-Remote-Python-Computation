@@ -114,6 +114,12 @@ body{
     margin: 15px;
 }
 
+.carousel-control-prev-icon, .carousel-control-next-icon {
+    border-radius: 5%;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
 .description{
     font-size: small;
     color: #808080;

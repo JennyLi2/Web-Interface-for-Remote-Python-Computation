@@ -3,7 +3,8 @@
     The following code is adapted from a tutorial provided by PyTorch.
     Source: https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html
 """
-
+import base64
+import io
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -12,6 +13,7 @@ import torchvision
 import torchvision.transforms as transforms
 from PIL import Image
 from werkzeug.datastructures import FileStorage
+import matplotlib.pyplot as plt
 
 classes = ('plane', 'car', 'bird', 'cat',
            'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
@@ -82,6 +84,7 @@ def predict_image(image):
     img = transform(img)
     img = img.unsqueeze(0)
     net = Net()
+    # change this path
     PATH = 'C:/Users/User/PycharmProjects/flaskProject/modules/pytorch_example/cifar_net.pth'
     net.load_state_dict(torch.load(PATH))
     net.eval()
@@ -93,7 +96,21 @@ def predict_image(image):
 
     predict_result = "Predicted class: " + classes[predicted_class-1]
 
-    return [["/static/img/image.jpg", "/static/img/image.jpg", "/static/img/image.jpg"], predict_result]
+    img = Image.open(image)
+    plt.figure(figsize=(6, 6))
+    plt.imshow(img)
+    plt.title(predict_result)
+    plt.axis('off')
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+
+    img_base64 = base64.b64encode(buf.getvalue()).decode('utf-8')
+
+    img_src = f"data:image/png;base64,{img_base64}"
+
+    return [[img_src, "/static/img/image.jpg", "/static/img/image.jpg"], predict_result]
 
 
 def validate(image_field1):

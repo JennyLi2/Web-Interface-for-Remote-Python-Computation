@@ -34,7 +34,7 @@
           "label": "Float Field",
           "type": "float",
           "name": "float_field1",
-          "value": "0.55",
+          "default": "0.55",
           "description": "Max: 100.1, min: 0.55",
           "min": 0.55,
           "max": 100.1
@@ -137,7 +137,7 @@
       "module": "scikitlearn_example.iris_tree_script",
       "output": ["text"]
     },
-    "Pytorch Cifar": {
+    "PyTorch Cifar": {
       "inputFields": [
         {
           "label": "Image to classify",

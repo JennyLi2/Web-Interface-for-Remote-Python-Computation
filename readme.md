@@ -34,7 +34,7 @@ pip install -r requirements.txt
 
 If you would like to run the scikit-learn and PyTorch examples, uncomment the packages in requirements.txt to install the extra packages.
 
-Check the installed packages:
+To check the installed packages:
 ```
 pip list
 ```

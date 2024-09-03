@@ -84,9 +84,14 @@
                         window.location.href = data.redirect_url;
                     }else if(data.input_err) {
                         let errors = data.input_err || {};
+                        let firstErr = true;
                         for(let field in errors) {
                             let errMsg = document.getElementById(field+'-err');
                             errMsg.innerText = errors[field];
+                            if(firstErr){
+                                firstErr = false;
+                                errMsg.parentElement.scrollIntoView({ behavior: 'smooth' });
+                            }
                         }
                     }else {
                         alert(data.err_message);

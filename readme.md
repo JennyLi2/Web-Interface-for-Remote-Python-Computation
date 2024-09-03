@@ -23,32 +23,36 @@ cd Web-Interface-for-Remote-Python-Computation
 ```
 Alternatively, you can download this code as a zip file and extract it.
 
-**2. Install Flask**
+**2. Install Required Packages**
 
-You may want to create a virtual environment before installing Flask. See the [official documentation](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/#create-and-use-virtual-environments) for more information.
+You may want to create a virtual environment before installing the packages. See the [official documentation](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/#create-and-use-virtual-environments) for more information.
 
-To install Flask:
+To install:
 ```
-pip install flask
+pip install -r requirements.txt
 ```
 
-Confirm if Flask is installed:
+If you would like to run the scikit-learn and PyTorch examples, uncomment the packages in requirements.txt to install the extra packages.
+
+Check the installed packages:
 ```
-flask --version
+pip list
 ```
 
 **3. Start the web server**
 
 Make sure you navigate to the project folder before running the command.
 ```
-flask run
+python app.py
 ```
-This will start a development server. Once the server is running, you can access the web interface at:    
-http://127.0.0.1:5000/ or http://localhost:5000/
+This will start a waitress server. Once the server is running, you can access the web interface at:    
+http://127.0.0.1:5000/
 
 ## Getting started
 
 There are 2 Python scripts (`script1.py` and `script2.py` in the `modules` directory) with empty functions inside and a configuration file (`spec.json` in the `config` directory) provided as templates. You can modify/add new Python scripts and update the configuration file to observe how the web interface changes.
+
+The 2 directories `scikitlearn_example` and `pytorch_example` contains the scripts of the scikit-learn and PyTorch models.
 
 ### 1. Adding new Python scripts   
 The Python scripts have to be manually added to the `modules` directory. The entry point (main function to be called) has to use the name "validate". Details about the structure of its arguments will be given in the coming part.
@@ -122,19 +126,38 @@ The structure of the configuration file has to be as follows:
 ```
 The text in square brackets [ ] can be replaced accordingly, while the others are fixed terms and should not be changed.
 
-"[option 1]" and "[option 2]" are the names of the scripts to be shown in the dropdown list for users to select. More options can be added following the above format. Each script should have an array of input fields that specify the inputs it needs for the computation.
+"[option 1]" and "[option 2]" are the names of the scripts to be shown in the dropdown list for users to select. More options can be added following the above format. Each script should have an list of input fields that specify the inputs it needs for the computation.
 
 An input field should have the following attributes:
 * label
-* type (All types can be found [here](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#input_types). Commonly used ones are `text` and `number`, the use of other types in this program is still under experimentation.)
 * name
+* type
+  * Available types: 
+    * text
+    * textarea
+    * number
+    * float
+    * decimal
+    * hidden
+    * boolean (i.e. checkbox)
+    * select (i.e. dropdown list)
+    * radio
+    * file
+    * date
+    * time 
+  * check the input fields of `script1` in spec.json to see the examples
 
 
 The following attributes are optional:
-* value
+* choices (for types: 'select', 'radio')
+* default
+* description
+* extension (for type: 'file')
 * placeholder
 * required
 * readonly
+* max (for types: 'number', 'float', 'decimal', 'text')
+* min (for types: 'number', 'float', 'decimal', 'text')
 
 This is an example of an input field:
 ```javascript
@@ -149,4 +172,4 @@ This is an example of an input field:
 
 The configuration file has other examples for reference.
 
-The "module" requires you to specify the name of your script (the module to be imported), and the "output" requires you to specify the type of output the script will return. For now, this program accepts `number`, `text`, and `image`.
+The "module" requires you to specify the name of your script (the module to be imported), and the "output" requires you to specify the type of output the script will return (in a list). For now, this program accepts `text`, `image`, and `images`.

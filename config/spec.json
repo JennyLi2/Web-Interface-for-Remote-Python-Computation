@@ -43,7 +43,7 @@
           "label": "Decimal Field",
           "type": "decimal",
           "name": "decimal_field1",
-          "value": "0",
+          "default": "0",
           "description": "This is similar to the float field"
         },
         {
@@ -145,7 +145,6 @@
           "name": "image_field1",
           "description": "Accepted image type: \"png\", \"jpg\", \"bmp\"",
           "extension": ["png", "jpg", "bmp"],
-          "value": "0",
           "required": "true"
         }
       ],

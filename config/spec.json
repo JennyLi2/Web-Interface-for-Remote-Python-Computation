@@ -121,14 +121,14 @@
       "inputFields": [
         {
           "label": "Sepal length",
-          "type": "decimal",
+          "type": "float",
           "name": "sepal_length",
           "placeholder": "Enter the sepal length",
           "required": "true"
         },
         {
           "label": "Sepal width",
-          "type": "decimal",
+          "type": "float",
           "name": "sepal_width",
           "placeholder": "Enter the sepal width",
           "required": "true"

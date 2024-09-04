@@ -5,10 +5,7 @@ import numpy as np
 classes = ['Setosa', 'Versicolor', 'Virginica']
 
 
-def validate(sepal_length: str, sepal_width: str):
-    sepal_length = float(sepal_length)
-    sepal_width = float(sepal_width)
-
+def validate(sepal_length, sepal_width):
     try:
         with open("./modules/scikitlearn_example/iris_tree.pkl", "rb") as f:
             clf = load(f)

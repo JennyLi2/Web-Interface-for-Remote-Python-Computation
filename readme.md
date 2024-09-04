@@ -50,7 +50,7 @@ http://127.0.0.1:5000/
 
 ## Getting started
 
-There are 2 Python scripts (`script1.py` and `script2.py` in the `modules` directory) with empty functions inside and a configuration file (`spec.json` in the `config` directory) provided as templates. You can modify/add new Python scripts and update the configuration file to observe how the web interface changes.
+There are 2 Python scripts (`script1.py` and `script2.py` in the `modules` directory) with empty functions inside and a configuration file (`spec.json` in the `config` directory) provided as templates. When executing `script1`, it will return an error as the input parameters do not match with the inputs specified in the configuration file. You can modify/add new Python scripts and update the configuration file to observe how the web interface changes.
 
 The 2 directories `scikitlearn_example` and `pytorch_example` contains the scripts of the scikit-learn and PyTorch models.
 

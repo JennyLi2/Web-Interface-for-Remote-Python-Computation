@@ -9,7 +9,10 @@ then enter relevant parameters through a dynamically generated web form. The com
 
 Here is a demo of how a remote user will interact with the web interface:    
 
-https://github.com/JennyLi2/Web-Interface-for-Remote-Python-Computation/assets/116062873/a73edca2-06fd-4bd2-8713-390a7c85248a
+
+https://github.com/user-attachments/assets/054af8ae-4bb1-46cf-83b2-fe338a628060
+
+
 
 
 ## Setup

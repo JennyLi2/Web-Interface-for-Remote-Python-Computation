@@ -86,7 +86,7 @@ def handle_form(script):
                 logging.error(e)
                 return jsonify(success=False, err_message="Internal server error"), 500
         else:
-            # if have invalid input
+            # if there is invalid input
             input_err = {field.name: field.errors for field in form if field.errors}
             return jsonify(success=False, input_err=input_err), 400
 

@@ -5,6 +5,7 @@
 """
 import base64
 import io
+import matplotlib
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -14,6 +15,9 @@ import torchvision.transforms as transforms
 from PIL import Image
 from werkzeug.datastructures import FileStorage
 import matplotlib.pyplot as plt
+
+# for backend matplotlib
+matplotlib.use('Agg')
 
 classes = ('plane', 'car', 'bird', 'cat',
            'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
@@ -80,12 +84,12 @@ def predict_image(image):
          transforms.ToTensor(),
          transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
-    img = Image.open(image)
+    img = Image.open(io.BytesIO(image))
     img = transform(img)
     img = img.unsqueeze(0)
     net = Net()
     # change this path
-    PATH = 'C:/Users/User/PycharmProjects/flaskProject/modules/pytorch_example/cifar_net.pth'
+    PATH = './modules/pytorch_example/cifar_net.pth'
     net.load_state_dict(torch.load(PATH))
     net.eval()
 
@@ -96,7 +100,7 @@ def predict_image(image):
 
     predict_result = "Predicted class: " + classes[predicted_class-1]
 
-    img = Image.open(image)
+    img = Image.open(io.BytesIO(image))
     plt.figure(figsize=(6, 6))
     plt.imshow(img)
     plt.title(predict_result)
@@ -105,6 +109,7 @@ def predict_image(image):
     buf = io.BytesIO()
     plt.savefig(buf, format='png')
     buf.seek(0)
+    plt.close()
 
     img_base64 = base64.b64encode(buf.getvalue()).decode('utf-8')
 
@@ -118,5 +123,7 @@ def validate(image_field1):
         filename = image_field1.filename
         if '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS:
             return predict_image(image_field1)
+    elif type(image_field1) is bytes:
+        return predict_image(image_field1)
     else:
         return False

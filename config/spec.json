@@ -143,8 +143,8 @@
           "label": "Image to classify",
           "type": "file",
           "name": "image_field1",
-          "description": "Accepted image type: \"png\", \"jpg\", \"bmp\"",
-          "extension": ["png", "jpg", "bmp"],
+          "description": "Accepted image type: \"jpg\", \"bmp\"",
+          "extension": ["jpg", "bmp"],
           "required": "true"
         }
       ],

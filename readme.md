@@ -10,7 +10,10 @@ then enter relevant parameters through a dynamically generated web form. The com
 Here is a demo of how a remote user will interact with the web interface:    
 
 
-https://github.com/user-attachments/assets/054af8ae-4bb1-46cf-83b2-fe338a628060
+
+https://github.com/user-attachments/assets/406ae61e-0115-4f82-a1d7-0cb3858b93ca
+
+
 
 
 
